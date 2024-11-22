@@ -1,0 +1,54 @@
+---
+// src/pages/contact.astro
+import Layout from '../layouts/Layout.astro';
+import { useState } from 'react';
+import axios from 'axios';
+
+const handleSubmit = async (event) => {
+  event.preventDefault();
+  const formData = new FormData(event.target);
+  const formObject = Object.fromEntries(formData.entries());
+
+  try {
+    const response = await axios.post('/api/contact', formObject);
+    if (response.status === 200) {
+      setMessage('Message sent successfully');
+      setError(null);
+    }
+  } catch (error) {
+    setError('Error sending message');
+    setMessage(null);
+  }
+};
+
+const [message, setMessage] = useState(null);
+const [error, setError] = useState(null);
+---
+
+<Layout>
+  <h1>Contact Us</h1>
+  <form id="contact-form" onSubmit={handleSubmit}>
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="message">Message:</label>
+    <textarea id="message" name="message" required></textarea>
+
+    <button type="submit">Send</button>
+  </form>
+
+  {message && <p class="success">{message}</p>}
+  {error && <p class="error">{error}</p>}
+</Layout>
+
+<style>
+  .success {
+    color: green;
+  }
+  .error {
+    color: red;
+  }
+</style>
