@@ -1,8 +1,10 @@
 ---
 // src/pages/contact.astro
 import Layout from '../layouts/Layout.astro';
-import { useState } from 'react';
 import axios from 'axios';
+
+let message = null;
+let error = null;
 
 const handleSubmit = async (event) => {
   event.preventDefault();
@@ -12,22 +14,19 @@ const handleSubmit = async (event) => {
   try {
     const response = await axios.post('/api/contact', formObject);
     if (response.status === 200) {
-      setMessage('Message sent successfully');
-      setError(null);
+      message = 'Message sent successfully';
+      error = null;
     }
-  } catch (error) {
-    setError('Error sending message');
-    setMessage(null);
+  } catch (err) {
+    error = 'Error sending message';
+    message = null;
   }
 };
-
-const [message, setMessage] = useState(null);
-const [error, setError] = useState(null);
 ---
 
 <Layout>
   <h1>Contact Us</h1>
-  <form id="contact-form" onSubmit={handleSubmit}>
+  <form id="contact-form" onsubmit={handleSubmit}>
     <label for="name">Name:</label>
     <input type="text" id="name" name="name" required>
 

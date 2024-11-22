@@ -46,6 +46,11 @@ import Container from "./Container.astro";
                                     <span>Blog</span>
                                 </a>
                             </li>
+                            <li>
+                                <a href="/contact" class="block md:px-4 transition hover:text-primary">
+                                    <span>Contact Us</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
 
@@ -59,7 +64,11 @@ import Container from "./Container.astro";
 <script>
     // Function to close the menu by unchecking the toggle checkbox
     function closeMenu() {
-        document.getElementById('toggle_nav').checked = false;
+        const toggleNav = document.getElementById('toggle_nav');
+        if (toggleNav instanceof HTMLInputElement) {
+            toggleNav.checked = false;
+        }
+        // document.getElementById('toggle_nav').checked = false;
     }
 
     // Add event listeners to all links to close the menu on click
